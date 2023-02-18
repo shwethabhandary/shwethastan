@@ -4,7 +4,7 @@ import Footer from './footer';
 const Founders = () => {
   return (
     <div>
-      <h1>Founders</h1>
+      <h1 class="founderh1">Bigfoot Found, Shot, Killed</h1>
       <Footer></Footer>
     </div>
   );
