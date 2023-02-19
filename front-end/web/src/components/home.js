@@ -1,21 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Footer from './footer';
 import Result from './result';
-  
+import Example from './example';
+import axios from 'axios';
+
 const Home = () => {
+
+  const [searchInput, setSearchInput] = useState('');
+  // const requestOptions = {
+  //   method: 'POST',
+  //   body: JSON.parse({ url_link: searchInput })
+  // }
+  const [searchResults, setSearchResults] = useState(null);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // try {
+    //   console.log(requestOptions)
+    //   const response = await fetch('https://jllewis11--modal-serverless-api-fastapi-app.modal.run/search',requestOptions);
+    //   const data = await response.json()
+    //   setSearchResults(data);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+
+    axios
+      .post('https://jllewis11--modal-serverless-api-fastapi-app.modal.run/search', JSON.parse({ url_link: searchInput }))
+      .then(res => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+  };
+
   return (
     <div>
-    <span class="headline hl1">Breaking News:</span><span class="headline hl11"> You can now check truthfull summary with news URL below. Did You Try?</span>
+      <span class="headline hl1">Breaking News:</span>
+      <span class="founderh12">You can now check truthful summary with news URL below. Did You Try?</span>
+      {/* <span class="headline hl1">Breaking News:</span><span class="headline hl11"> You can now check truthful summary with news URL below. Did You Try?</span> */}
+      <br /><br /><br />
       <div class="searchcontainer">
-        <form action="/" method="GET" class="form">
-            <input type="search" placeholder="Enter Your URL" class="search-field" />
-            <button type="submit" class="search-button">Search</button>
+        <form action='POST' onSubmit={handleSubmit} class="form">
+          <input type="search" placeholder="Enter Your URL" class="search-field" value={searchInput} onChange={(event) => setSearchInput(event.target.value)} />
+
+          <button type="submit" class="search-button">Search</button>
         </form>
       </div>
-      <Result></Result>
-    <Footer></Footer>
+      {searchResults && <Result searchResults={searchResults}></Result>}
+      <Example></Example>
+      <Footer></Footer>
     </div>
   );
 };
-  
+
 export default Home;
